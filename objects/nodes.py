@@ -1,4 +1,5 @@
 from .supports import Free
+from numpy import array
 
 
 # TODO: maybe it should be an abstract class?
@@ -14,5 +15,10 @@ class Node2D(Node):
     _dim = '2D'
 
     def __init__(self, x=0, y=0, support=Free):
-        self.coordinates = (x, y)
+        self._x = x
+        self._y = y
         self.support = support
+
+    @property
+    def coordinates(self):
+        return array([self._x, self._y])
