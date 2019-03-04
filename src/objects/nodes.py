@@ -21,4 +21,8 @@ class Node2D(Node):
 
     @property
     def coordinates(self):
+        '''
+        Returns array of x and y coordinates of node
+        in global coordinate system.
+        '''
         return array([self._x, self._y])
