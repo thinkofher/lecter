@@ -1,7 +1,7 @@
 import unittest
 from math import sqrt
-from ..objects.bar import Bar
-from ..objects.nodes import Node2D
+from ..src.objects.bar import Bar
+from ..src.objects.nodes import Node2D
 
 
 class TestBarObjects(unittest.TestCase):
