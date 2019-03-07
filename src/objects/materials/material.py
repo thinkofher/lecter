@@ -4,12 +4,13 @@ class NeedMoreData(Exception):
 
 
 # TODO: Add messages to errors
+# TODO: Add tests
 class ElasticMaterial:
 
-    # TODO: Raise error if there is more than three materials
+    # TODO: Raise error if there is more than three materials properties
     def __init__(self, young_m=None, kirchff_m=None, poisson=None):
-        self._young_modulus = young_m,
-        self._kirchoff_modulus = kirchff_m,
+        self._young_modulus = young_m
+        self._kirchoff_modulus = kirchff_m
         self._poissons_ratio = poisson
 
     @property
