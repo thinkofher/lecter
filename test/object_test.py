@@ -3,7 +3,7 @@ from math import sqrt
 from ..src.objects.bar import Bar
 from ..src.objects.nodes import Node2D
 from ..src.objects.materials.material import ElasticMaterial
-
+from ..src.objects.sections import CircleBar
 
 class TestMaterials(unittest.TestCase):
 
@@ -38,31 +38,36 @@ class TestMaterials(unittest.TestCase):
 
 class TestLengthOfBarObjects(unittest.TestCase):
 
+    sample_sec = CircleBar(1)
+    sample_mat = ElasticMaterial(210e9, 0.3)
+
     def test_length_horizontal(self):
         node_1 = Node2D(x=0, y=0)
         node_2 = Node2D(x=5, y=0)
-        test_bar = Bar(node_1, node_2)
+        test_bar = Bar(node_1, node_2, self.sample_sec, self.sample_mat)
         self.assertEqual(test_bar.length, 5)
 
     def test_length_vertical(self):
         node_1 = Node2D(x=0, y=0)
         node_2 = Node2D(x=0, y=5)
-        test_bar = Bar(node_1, node_2)
+        test_bar = Bar(node_1, node_2, self.sample_sec, self.sample_mat)
         self.assertEqual(test_bar.length, 5)
 
     def test_length_complex(self):
         node_1 = Node2D(x=0, y=0)
         node_2 = Node2D(x=5, y=5)
-        test_bar = Bar(node_1, node_2)
+        test_bar = Bar(node_1, node_2, self.sample_sec, self.sample_mat)
         self.assertEqual(test_bar.length, 5*sqrt(2))
 
 
 class TestAnglesOfBarObjects(unittest.TestCase):
 
+    sample_sec = CircleBar(1)
+    sample_mat = ElasticMaterial(210e9, 0.3)
     x1, x2, y1, y2 = 3, 5, 10, 30
     node_1 = Node2D(x=x1, y=y1)
     node_2 = Node2D(x=x2, y=y2)
-    test_bar = Bar(node_1, node_2)
+    test_bar = Bar(node_1, node_2, sample_sec, sample_mat)
 
     manual_calc_len = sqrt((x2-x1)**2 + (y2-y1)**2)
 
