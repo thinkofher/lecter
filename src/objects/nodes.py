@@ -2,13 +2,40 @@ from .supports import Free
 from numpy import array
 
 
+class AlreadySigned(Exception):
+    """Raise when Node is already signed."""
+    pass
+
+
+class NotSignedYet(Exception):
+    """Raise when Node is not signed yet."""
+    pass
+
+
 # TODO: maybe it should be an abstract class?
 class Node:
-    def _set_localid(self, id):
-        self._localid = id
+    _signed = False
 
-    def _set_globalid(self, bar_id):
-        self._globalid = bar_id + self._localid
+    @property
+    def global_matrix_pointers(self):
+        """
+        Returns tuple of pointers to global stifness
+        matrix and other elements of FEM equation.
+        """
+        try:
+            return (2*self._globalid, 2*self._globalid+1)
+        except AttributeError:
+            raise NotSignedYet('This node is not signed.')
+
+    def _set_globalid(self, bar_id, local_id):
+        self._set_signed()
+        self._globalid = bar_id + local_id
+
+    def _set_signed(self):
+        if self._signed:
+            raise AlreadySigned
+        else:
+            self._signed = not self._signed
 
 
 class Node2D(Node):
