@@ -3,12 +3,25 @@ class NeedMoreData(Exception):
     pass
 
 
+class TooMuchInputData(Exception):
+    """Raise when, there is too many input data."""
+    pass
+
+
 # TODO: Add messages to errors
 # TODO: Add tests
 class ElasticMaterial:
 
-    # TODO: Raise error if there is more than three materials properties
     def __init__(self, young_m=None, kirchff_m=None, poisson=None):
+
+        # TODO: Make it more elegant
+        error_ratio = 0
+        for var in (young_m, kirchff_m, poisson):
+            if var is not None:
+                error_ratio += 1
+            if error_ratio > 2:
+                raise TooMuchInputData
+
         self._young_modulus = young_m
         self._kirchoff_modulus = kirchff_m
         self._poissons_ratio = poisson
