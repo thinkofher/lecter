@@ -1,6 +1,22 @@
+from .nodes import AlreadySigned
 from numpy.linalg import norm
 
 
+class _BarOganizer:
+
+    def _set_globalid(self, bar_id):
+        self._globalid = bar_id
+        try:
+            self._starting_node._set_globalid(bar_id, 0)
+        except AlreadySigned:
+            pass
+        try:
+            self._ending_node._set_globalid(bar_id, 1)
+        except AlreadySigned:
+            pass
+
+
+# TODO: create a angle property
 class BarAngles:
 
     @property
@@ -24,7 +40,7 @@ class BarAngles:
         return (second_xcon-first_xcon)/self.length
 
 
-class Bar(BarAngles):
+class Bar(BarAngles, _BarOganizer):
 
     # TODO: Create sample section obcjets for further implementation
     def __init__(self, starting_node, ending_node, section, material):
