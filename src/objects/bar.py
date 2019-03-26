@@ -27,10 +27,11 @@ class BarAngles:
 class Bar(BarAngles):
 
     # TODO: Create sample section obcjets for further implementation
-    def __init__(self, starting_node, ending_node, section=False):
+    def __init__(self, starting_node, ending_node, section, material):
         self._starting_node = starting_node
         self._ending_node = ending_node
         self.section = section
+        self.material = material
 
     @property
     def length(self):
