@@ -1,4 +1,4 @@
-from .supports import Free
+from .supports import Support
 from numpy import array
 
 
@@ -41,7 +41,7 @@ class Node:
 class Node2D(Node):
     _dim = '2D'
 
-    def __init__(self, x=0, y=0, support=Free):
+    def __init__(self, x=0, y=0, support=Support.free()):
         self._x = x
         self._y = y
         self.support = support

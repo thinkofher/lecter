@@ -10,6 +10,10 @@ class Support:
         self.fixed = bool(fixed)
 
     @staticmethod
+    def free():
+        return Support(False, False, False)
+
+    @staticmethod
     def pinned():
         return Support(True, True, False)
 
