@@ -11,15 +11,14 @@ class _TrussOrganizer:
         """
         for curr_id, bar in enumerate(self.bars):
             bar._set_globalid(curr_id)
-        self._set_nodes()
 
-    def _set_nodes(self):
-        """
-        Adds nodes to the nodes tuple property of truss.
-        """
+    @property
+    def nodes(self):
+        nodes = set()
         for bar in self.bars:
-            self.nodes.add(bar._starting_node)
-            self.nodes.add(bar._ending_node)
+            nodes.add(bar._starting_node)
+            nodes.add(bar._ending_node)
+        return nodes
 
     @property
     def max_id(self):
@@ -74,9 +73,18 @@ class _TrussConForces:
         for node in self.nodes:
             pointers = node.global_matrix_pointers
             forces = node.truss_forces
-            for forces_id, pointer_id in pointers:
+            for forces_id, pointer_id in enumerate(pointers):
                 self.con_global_forces_vector[pointer_id] += \
                     forces[forces_id]
+
+        # Transform vector to 2D
+        self.con_global_forces_vector = \
+            self.con_global_forces_vector.reshape(
+                1, self.con_global_forces_vector.size)
+
+
+class _TrussSolver:
+    pass
 
 
 class TrussConstruction(
@@ -88,3 +96,10 @@ class TrussConstruction(
     def __init__(self, *bars):
         self.bars = bars
         self._organize()
+
+    def solve(self):
+        self._init_forces_vector()
+        self._init_stiff_matrix()
+
+        self._stifness_aggregation()
+        self._forces_aggregation()
