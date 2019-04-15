@@ -52,13 +52,57 @@ class Node:
         self._globalid = None
 
 
-class Node2D(Node):
+class TrussNode:
+
+    def set_truss_boundaries(self, xt, yt):
+        self.set_boundaries(xt=xt, yt=yt)
+
+    def set_truss_load(self, x_force=0, y_force=0):
+        self.x_force = x_force
+        self.y_force = y_force
+
+    @property
+    def truss_forces(self):
+        """
+        Returns array with forces in node
+        specific to truss construction.
+        """
+        return array([self.x_force, self.y_force])
+
+    @property
+    def truss_bounadries(self):
+        """
+        Returns array with information abount
+        boundaries in node.
+        """
+        return array([self.x_trans, self.y_trans])
+
+
+class Node2D(Node, TrussNode):
     _dim = '2D'
+    _boundaries = (False, False, False, False)
 
     def __init__(self, x=0, y=0, support=Support.free()):
         self._x = x
         self._y = y
         self.support = support
+
+    def set_boundaries(self,
+                       xt=False, xr=False,
+                       yt=False, yr=False):
+        """
+        Determinates if node can move or rotate
+        in x or y direction.
+        """
+        self._boundaries = (xt, xr, yt, yr)
+        self._x_trans = xt
+        self._y_trans = yt
+        self._x_rot = xr
+        self._y_rot = yr
+
+    @property
+    def boundaries(self):
+        return array(self._boundaries)
 
     @property
     def coordinates(self):
