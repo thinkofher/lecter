@@ -28,14 +28,28 @@ class Node:
             raise NotSignedYet('This node is not signed.')
 
     def _set_globalid(self, bar_id, local_id):
+        """
+        Sets global id for the node.
+        """
         self._set_signed()
         self._globalid = bar_id + local_id
 
     def _set_signed(self):
+        """
+        Changing status of the node to signed, and
+        checks if the node is already signed.
+        """
         if self._signed:
             raise AlreadySigned
         else:
             self._signed = not self._signed
+
+    def _clean(self):
+        """
+        Clean information from nodes.
+        """
+        self._signed = False
+        self._globalid = None
 
 
 class Node2D(Node):
