@@ -87,6 +87,11 @@ class Node2D(Node, TrussNode):
         self._y = y
         self.support = support
 
+    def __hash__(self):
+        return hash(
+            (self._x, self._y)
+        )
+
     def set_boundaries(self,
                        xt=False, xr=False,
                        yt=False, yr=False):

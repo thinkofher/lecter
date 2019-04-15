@@ -49,6 +49,11 @@ class Bar(BarAngles, _BarOganizer):
         self.section = section
         self.material = material
 
+    def __hash__(self):
+        return hash(
+            (self._starting_node, self._ending_node)
+        )
+
     @property
     def length(self):
         '''
