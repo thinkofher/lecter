@@ -13,6 +13,8 @@ class _TrussOrganizer:
             bar._set_globalid(curr_id)
         self._set_nodes()
 
+    # TODO: why theres 6 nodes _TrussOrganizer.nodes
+    # if i define only 3 nodes
     def _set_nodes(self):
         """
         Adds nodes to the nodes tuple property of truss.
@@ -32,17 +34,18 @@ class _TrussOrganizer:
         return max(ids)
 
 
-class _TrussConstructionMatrixes:
+class _TrussConStifness:
 
-    def _init_global_matrix(self):
+    def _init_stiff_matrix(self):
         """
-        Creates a global stifness matrix filled with zeros,
-        in global coordinate system, depending on the
-        amount of nodes.
+        Creates a global construction stifness matrix
+        filled with zeros, in global coordinates system,
+        depending on the amount of nodes.
         """
-        self.con_global_stifness_matrix = zeros((self.max_id+1, self.max_id+1))
+        size = self.max_id + 1
+        self.con_global_stifness_matrix = zeros((size, size))
 
-    def _aggregation(self):
+    def _stifness_aggregation(self):
         """
         Aggregates global stifness matrixes of the bars.
         """
@@ -55,9 +58,28 @@ class _TrussConstructionMatrixes:
                         bar.global_stifness_matrix[id_i, id_j]
 
 
+class _TrussConForces:
+
+    def _init_forces_vector(self):
+        """
+        Creates a global construction forces vector
+        filled with zeros, in global coordinates system,
+        depending on amount of nodes.
+        """
+        size = self.max_id + 1
+        self.con_global_forces_vector = zeros(size)
+
+    def _forces_aggregation(self):
+        """
+        Aggregates global forces vector of the nodes.
+        """
+        pass
+
+
 class TrussConstruction(
         _TrussOrganizer,
-        _TrussConstructionMatrixes
+        _TrussConStifness,
+        _TrussConForces,
 ):
 
     def __init__(self, *bars):
