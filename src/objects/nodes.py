@@ -58,8 +58,8 @@ class TrussNode:
         self.set_boundaries(xt=xt, yt=yt)
 
     def set_truss_load(self, x_force=0, y_force=0):
-        self.x_force = x_force
-        self.y_force = y_force
+        self._x_force = x_force
+        self._y_force = y_force
 
     @property
     def truss_forces(self):
@@ -67,7 +67,7 @@ class TrussNode:
         Returns array with forces in node
         specific to truss construction.
         """
-        return array([self.x_force, self.y_force])
+        return array([self._x_force, self._y_force])
 
     @property
     def truss_bounadries(self):
@@ -75,17 +75,17 @@ class TrussNode:
         Returns array with information abount
         boundaries in node.
         """
-        return array([self.x_trans, self.y_trans])
+        return array([self._x_trans, self._y_trans])
 
 
 class Node2D(Node, TrussNode):
     _dim = '2D'
     _boundaries = (False, False, False, False)
 
-    def __init__(self, x=0, y=0, support=Support.free()):
+    def __init__(self, x=0, y=0):
         self._x = x
         self._y = y
-        self.support = support
+        self.set_boundaries()
 
     def __hash__(self):
         return hash(

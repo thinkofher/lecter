@@ -84,7 +84,9 @@ class _TrussConForces:
 
 
 class _TrussSolver:
-    pass
+
+    def _apply_boundaries(self):
+        pass
 
 
 class TrussConstruction(
